@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
-import mongoose, { Document, HydratedDocument, Model, Schema, Types } from 'mongoose'
+import mongoose, { Document, HydratedDocument, Model, Types } from 'mongoose'
 import validator from 'validator'
 import md5 from 'md5'
 
@@ -132,7 +132,7 @@ userSchema.methods.generateAccessToken = function generateAccessToken() {
     // Создание accessToken токена возможно в контроллере авторизации
     return jwt.sign(
         {
-            _id: (user._id as Schema.Types.ObjectId).toString(),
+            _id: user._id.toString(),
             email: user.email,
         },
         ACCESS_TOKEN.secret,
@@ -149,7 +149,7 @@ userSchema.methods.generateRefreshToken =
         // Создание refresh токена возможно в контроллере авторизации/регистрации
         const refreshToken = jwt.sign(
             {
-                _id: (user._id as Schema.Types.ObjectId).toString(),
+                _id: user._id.toString(),
             },
             REFRESH_TOKEN.secret,
             {
